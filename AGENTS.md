@@ -1,3 +1,18 @@
+# releasebot
+
+Telegram-бот для релизов на Cloudflare Workers: CI шлёт `POST /build-notifications` → сообщение в чат с кнопкой **release** → `workflow_dispatch` в GitHub Actions (dev/prod).
+
+| | |
+|---|---|
+| Стек | TypeScript, Hono, grammY, zod, Vitest |
+| Состояние | Durable Object `ReleaseStore` (`RELEASE_STORE`), TTL 24 ч |
+| Роуты | `GET /healthz`, `POST /build-notifications`, `POST /telegram/webhook` |
+| Пакеты | yarn (`yarn dev`, `yarn test`, `yarn deploy`) |
+| Конфиг | vars в `wrangler.jsonc`, секреты — `wrangler secret put`, локально `.dev.vars` |
+| Документация | `README.md` |
+
+---
+
 # Cloudflare Workers
 
 STOP. Your knowledge of Cloudflare Workers APIs and limits may be outdated. Always retrieve current documentation before any Workers, KV, R2, D1, Durable Objects, Queues, Vectorize, AI, or Agents SDK task.

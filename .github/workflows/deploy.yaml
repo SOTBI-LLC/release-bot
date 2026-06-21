@@ -1,0 +1,33 @@
+name: Lint, Test & Deploy Worker
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    uses: SOTBI-LLC/gh-actions/.github/workflows/ts-lint.yaml@main
+    secrets: inherit
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: '24' }
+      - run: corepack enable
+      - run: yarn install --frozen-lockfile
+      - run: yarn vitest run
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
