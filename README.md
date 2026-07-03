@@ -199,6 +199,95 @@ RELEASEBOT_SHARED_SECRET=dev-shared-secret
 
 ---
 
+## Подготовка Telegram
+
+Перед деплоем нужно получить значения для `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` и `TELEGRAM_ALLOWED_USER_IDS`.
+
+### 1. Создать бота
+
+1. Создать бота через `@BotFather` и сохранить token в `TELEGRAM_BOT_TOKEN`.
+2. Добавить бота в Telegram-чат или канал, куда будут приходить build-уведомления.
+3. Получить `TELEGRAM_BOT_INFO` (см. выше) и сохранить как секрет.
+
+### 2. Получить `TELEGRAM_CHAT_ID`
+
+1. Добавить бота в нужную группу или канал.
+2. Написать в чат любое сообщение, например `/start` или `test`.
+3. Выполнить:
+
+```bash
+curl "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates"
+```
+
+4. Найти `message.chat.id` в ответе:
+
+```json
+{
+  "message": {
+    "chat": {
+      "id": -123456789,
+      "title": "SOTBI releases",
+      "type": "group"
+    }
+  }
+}
+```
+
+5. Сохранить значение `id` целиком в `wrangler.jsonc` → `[vars]` или в `.dev.vars` для локальной разработки.
+
+Для супергрупп и каналов `chat_id` обычно начинается с `-100`, например `-1001234567890`. Минус — часть id, его нужно сохранять.
+
+Если `getUpdates` возвращает пустой `result`:
+
+- бот добавлен в чат, но после добавления не было новых сообщений;
+- у бота включён webhook — временно удалить его, затем повторить:
+
+```bash
+curl --request POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/deleteWebhook"
+```
+
+После деплоя webhook регистрируется заново (см. [Регистрация webhook](#регистрация-webhook)).
+
+### 3. Получить `TELEGRAM_ALLOWED_USER_IDS`
+
+Numeric user id — id Telegram-аккаунта, не username и не `@login`. Список id через запятую: кто имеет право нажимать release-кнопки.
+
+**Способ A — через `getUpdates`:** пользователь пишет боту в личку `/start`, затем:
+
+```bash
+curl "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates"
+```
+
+Найти `message.from.id`:
+
+```json
+{
+  "message": {
+    "from": {
+      "id": 123456789,
+      "is_bot": false,
+      "first_name": "Ivan",
+      "username": "ivan"
+    }
+  }
+}
+```
+
+**Способ B — через callback:** если бот уже отправил release-сообщение, id будет в `callback_query.from.id` (удобно, когда webhook уже работает).
+
+**Способ C — через бота-помощника:** например `@userinfobot` — в whitelist добавлять число, не username.
+
+### Различия
+
+| Переменная | Что это | Пример |
+|---|---|---|
+| `TELEGRAM_CHAT_ID` | Куда бот отправляет release-сообщения (группа, канал, личка) | `-1001234567890` |
+| `TELEGRAM_ALLOWED_USER_IDS` | Кто может нажимать release-кнопки (id пользователей) | `123456789,987654321` |
+
+Whitelist проверяется на каждом callback: если пользователь видит сообщение, но его id не в списке, кнопки не сработают.
+
+---
+
 ## Быстрый старт
 
 ### Требования

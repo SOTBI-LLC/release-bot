@@ -42,7 +42,13 @@ app.post('/telegram/webhook', async (c) => {
 	}
 
 	const update = await c.req.json();
-	await createBot(c.env).handleUpdate(update);
+	try {
+		await createBot(c.env).handleUpdate(update);
+	} catch (error) {
+		// Never return non-2xx: Telegram retries failed webhook deliveries and would
+		// re-run side-effects (e.g. duplicate workflow dispatches). Log and swallow.
+		console.error('telegram webhook handler failed', { error: String(error) });
+	}
 
 	return c.body(null, 204);
 });
