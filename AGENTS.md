@@ -10,6 +10,20 @@ Telegram-бот для релизов на Cloudflare Workers: CI шлёт `POST
 | Пакеты | yarn (`yarn dev`, `yarn test`, `yarn deploy`) |
 | Конфиг | vars в `wrangler.jsonc`, секреты — `wrangler secret put`, локально `.dev.vars` |
 | Документация | `README.md` |
+| Скиллы | `.agents/skills` — см. раздел ниже |
+
+---
+
+# Skills
+
+Загружай соответствующий скилл **до** того, как писать код или команды.
+
+| Скилл | Когда загружать |
+|-------|-----------------|
+| `workers-best-practices` | Любая правка или ревью кода Worker: роуты Hono, обработчики, конфиг `wrangler.jsonc`, проверка на анти-паттерны (floating promises, глобальное состояние, секреты) |
+| `durable-objects` | Любая работа с `ReleaseStore`: методы RPC, TTL/alarms, миграции классов DO, тесты через `@cloudflare/vitest-pool-workers` |
+| `wrangler` | Перед любой командой `wrangler` (dev/deploy/secret/types) или правкой `wrangler.jsonc` — флаги и схема конфига меняются между версиями |
+| `cloudflare` | Общий вход в платформу, если задача выходит за текущий стек (KV, R2, Queues) — дерево решений ведёт к нужному продукту |
 
 ---
 
