@@ -1,0 +1,224 @@
+[
+  {
+    "status": "firing",
+    "groupKey": "EtcdNoSpacecp",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdNoSpace",
+      "member": "cp"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdNoSpace",
+          "member": "cp"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: подтверждён NOSPACE alarm — DCS может отказывать в записи, Patroni leader lock под угрозой",
+          "condition": "fresh sotbi_etcd_nospace = 1 (collector fresh <=120s)",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md (NOSPACE recovery — только ручной disarm после освобождения места)"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "EtcdNoSpacepg-node1",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdNoSpace",
+      "member": "pg-node1"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdNoSpace",
+          "member": "pg-node1"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: подтверждён NOSPACE alarm — DCS может отказывать в записи, Patroni leader lock под угрозой",
+          "condition": "fresh sotbi_etcd_nospace = 1 (collector fresh <=120s)",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md (NOSPACE recovery — только ручной disarm после освобождения места)"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "EtcdNoSpacepg-node2",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdNoSpace",
+      "member": "pg-node2"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdNoSpace",
+          "member": "pg-node2"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: подтверждён NOSPACE alarm — DCS может отказывать в записи, Patroni leader lock под угрозой",
+          "condition": "fresh sotbi_etcd_nospace = 1 (collector fresh <=120s)",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md (NOSPACE recovery — только ручной disarm после освобождения места)"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "EtcdBackendQuotaCriticalcp",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdBackendQuotaCritical",
+      "member": "cp"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdBackendQuotaCritical",
+          "member": "cp"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: backend/quota >85% на member — риск NOSPACE, требуется обслуживание",
+          "condition": "ratio > 85 на member, 5m",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "EtcdBackendQuotaCriticalpg-node1",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdBackendQuotaCritical",
+      "member": "pg-node1"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdBackendQuotaCritical",
+          "member": "pg-node1"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: backend/quota >85% на member — риск NOSPACE, требуется обслуживание",
+          "condition": "ratio > 85 на member, 5m",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "EtcdBackendQuotaCriticalpg-node2",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "shared",
+      "alertname": "EtcdBackendQuotaCritical",
+      "member": "pg-node2"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "shared",
+          "alertname": "EtcdBackendQuotaCritical",
+          "member": "pg-node2"
+        },
+        "annotations": {
+          "summary": "Общий Patroni etcd: backend/quota >85% на member — риск NOSPACE, требуется обслуживание",
+          "condition": "ratio > 85 на member, 5m",
+          "runbook_url": "sotbi-k8s: docs/patroni-etcd-maintenance.md"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  },
+  {
+    "status": "firing",
+    "groupKey": "ProductionNoPrimaryNone",
+    "groupLabels": {
+      "notify": "patroni-prod",
+      "severity": "critical",
+      "cluster": "prod",
+      "alertname": "ProductionNoPrimary"
+    },
+    "commonLabels": {},
+    "commonAnnotations": {},
+    "alerts": [
+      {
+        "status": "firing",
+        "labels": {
+          "notify": "patroni-prod",
+          "severity": "critical",
+          "cluster": "prod",
+          "alertname": "ProductionNoPrimary"
+        },
+        "annotations": {
+          "summary": "Production PostgreSQL: свежие данные обоих node подтверждают отсутствие primary",
+          "condition": "fresh primary count = 0 при fresh role data обоих node (unknown covered by VisibilityLost)",
+          "runbook_url": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+        },
+        "startsAt": "2026-09-30T08:00:00Z",
+        "dashboardURL": "https://dash.ourzoo.ru/d/sotbi-postgres-ha-etcd"
+      }
+    ]
+  }
+]

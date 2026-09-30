@@ -1,0 +1,22 @@
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "alertbot",
+	"main": "src/index.ts",
+	// Match the runtime bundled with the locked Wrangler/Vitest versions.
+	"compatibility_date": "2026-06-19",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": { "enabled": true },
+	"upload_source_maps": true,
+	"workers_dev": true,
+	"vars": {
+		"ENVIRONMENT": "production",
+		"TELEGRAM_CHAT_ID": "-1003219411685",
+		"WEBHOOK_BODY_LIMIT": "262144",
+		"OUTBOX_MAX_PENDING": "1000",
+		"OUTBOX_MAX_BYTES": "67108864"
+	},
+	"durable_objects": {
+		"bindings": [{ "name": "ALERT_OUTBOX", "class_name": "AlertOutbox" }]
+	},
+	"migrations": [{ "tag": "v1", "new_sqlite_classes": ["AlertOutbox"] }]
+}

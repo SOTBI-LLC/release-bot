@@ -2,12 +2,13 @@
 
 Монорепозиторий для разных Telegram-ботов. Каждый бот — отдельный Cloudflare Worker со своей логикой, URL, секретами и хранилищами. Зависимости устанавливаются одним `yarn install` из корня, приложения связаны через Yarn workspaces.
 
-Текущий бот [releasebot](apps/releasebot/README.md) принимает уведомления из CI и запускает релизы через GitHub Actions.
+Бот [releasebot](apps/releasebot/README.md) принимает уведомления из CI и запускает релизы через GitHub Actions. [alertbot](apps/alertbot/README.md) принимает Grafana Alerting webhooks и доставляет групповые сводки в Telegram через собственную Durable Object очередь с повторами до 24 часов.
 
 ## Структура
 
 ```text
 apps/
+  alertbot/                # Grafana Alerting → durable queue → Telegram
   releasebot/              # существующий бот релизов
     src/                  # логика, HTTP-роуты, ReleaseStore
     test/                 # тесты этого Worker
