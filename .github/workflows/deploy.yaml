@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         # Add a bot here when it is ready for automatic deployment.
-        bot: [releasebot]
+        bot: [releasebot, alertbot]
     environment: ${{ matrix.bot }}
     concurrency:
       group: deploy-${{ matrix.bot }}
