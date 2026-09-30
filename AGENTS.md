@@ -1,16 +1,18 @@
-# releasebot
+# Telegram bots on Cloudflare Workers
 
-Telegram-бот для релизов на Cloudflare Workers: CI шлёт `POST /build-notifications` → сообщение в чат с кнопкой **release** → `workflow_dispatch` в GitHub Actions (dev/prod).
+Монорепозиторий Yarn workspaces: каждый `apps/<bot>` — независимый Telegram-бот и Cloudflare Worker со своими `wrangler.jsonc`, bindings, секретами и тестами. Общие Telegram-утилиты — в `packages/telegram-worker`, шаблон нового бота — в `templates/telegram-bot`.
 
-| | |
-|---|---|
-| Стек | TypeScript, Hono, grammY, zod, Vitest |
-| Состояние | Durable Object `ReleaseStore` (`RELEASE_STORE`), TTL 24 ч |
-| Роуты | `GET /healthz`, `POST /build-notifications`, `POST /telegram/webhook` |
-| Пакеты | yarn (`yarn dev`, `yarn test`, `yarn deploy`) |
-| Конфиг | vars в `wrangler.jsonc`, секреты — `wrangler secret put`, локально `.dev.vars` |
-| Документация | `README.md` |
-| Скиллы | `.agents/skills` — см. раздел ниже |
+- Новый бот: `yarn bot:create <name>`, затем `yarn install`.
+- Команды конкретного бота: `yarn workspace @bots/<name> dev`, `deploy`, `cf-typegen`, `test:run`.
+- Проверки всего репозитория: `yarn typecheck`, `yarn test:run`, `yarn deploy:check`.
+- Корневые `dev`, `deploy`, `cf-typegen` сохранены как команды releasebot.
+- Секреты и локальное состояние принадлежат приложению: `apps/<bot>/.dev.vars`, `apps/<bot>/.wrangler`. Команды Wrangler выполняй из workspace выбранного бота.
+- Новые боты включаются в автоматический деплой явно через матрицу `.github/workflows/deploy.yaml`.
+- Бизнес-логика и хранилища остаются внутри приложения; выноси в `packages` только код, общий для разных ботов.
+
+`apps/releasebot` принимает `POST /build-notifications`, публикует release-кнопку в Telegram и запускает GitHub Actions через `workflow_dispatch`. Состояние: `ReleaseStore` (`RELEASE_STORE`), TTL 24 ч. При переносах сохраняй имя Worker `releasebot`, класс `ReleaseStore` и историю миграций: это идентичность существующего деплоя и данных.
+
+Документация: `README.md`, для releasebot — `apps/releasebot/README.md`. Скиллы в `.agents/skills`.
 
 ---
 
@@ -42,9 +44,9 @@ For all limits and quotas, retrieve from the product's `/platform/limits/` page.
 
 | Command | Purpose |
 |---------|---------|
-| `npx wrangler dev` | Local development |
-| `npx wrangler deploy` | Deploy to Cloudflare |
-| `npx wrangler types` | Generate TypeScript types |
+| `yarn workspace @bots/<name> dev` | Local development |
+| `yarn workspace @bots/<name> deploy` | Deploy to Cloudflare |
+| `yarn workspace @bots/<name> cf-typegen` | Generate TypeScript types |
 
 Run `wrangler types` after changing bindings in wrangler.jsonc.
 

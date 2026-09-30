@@ -1,13 +1,17 @@
 {
-	"name": "releasebot",
+	"name": "telegram-bots",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
+		"bot:create": "node scripts/create-bot.mjs",
+		"dev": "yarn workspace @bots/releasebot dev",
+		"start": "yarn dev",
+		"deploy": "yarn workspace @bots/releasebot deploy",
 		"test": "vitest",
-		"cf-typegen": "wrangler types"
+		"test:run": "vitest run",
+		"typecheck": "yarn workspaces run typecheck",
+		"cf-typegen": "yarn workspace @bots/releasebot cf-typegen",
+		"deploy:check": "node scripts/check-deployments.mjs"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.16.18",
@@ -16,9 +20,9 @@
 		"vitest": "^4.1.9",
 		"wrangler": "^4.103.0"
 	},
-	"dependencies": {
-		"grammy": "^1.44.0",
-		"hono": "^4.12.26",
-		"zod": "^4.4.3"
-	}
+	"packageManager": "yarn@1.22.22",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
 }

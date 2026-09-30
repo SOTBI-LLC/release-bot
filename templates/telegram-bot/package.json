@@ -1,0 +1,18 @@
+{
+	"name": "@bots/__BOT_NAME__",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"deploy:check": "wrangler deploy --dry-run",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"typecheck": "wrangler types && tsc -p tsconfig.json && tsc -p test/tsconfig.json",
+		"cf-typegen": "wrangler types"
+	},
+	"dependencies": {
+		"@bots/telegram-worker": "0.0.1",
+		"hono": "^4.12.26"
+	}
+}

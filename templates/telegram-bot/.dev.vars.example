@@ -1,0 +1,3 @@
+TELEGRAM_BOT_TOKEN=123456:replace-with-botfather-token
+TELEGRAM_BOT_INFO={"id":123456,"is_bot":true,"first_name":"__BOT_NAME__","username":"replace_with_bot_username"}
+TELEGRAM_WEBHOOK_SECRET_TOKEN=replace-with-random-webhook-secret

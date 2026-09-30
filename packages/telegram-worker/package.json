@@ -1,0 +1,13 @@
+{
+	"name": "@bots/telegram-worker",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"exports": { ".": "./src/index.ts" },
+	"scripts": {
+		"typecheck": "tsc -p tsconfig.json",
+		"test": "vitest",
+		"test:run": "vitest run"
+	},
+	"dependencies": { "grammy": "^1.44.0" }
+}

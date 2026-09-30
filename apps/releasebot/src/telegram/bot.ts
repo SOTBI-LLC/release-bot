@@ -1,4 +1,5 @@
-import { Bot, type Context } from 'grammy';
+import { createTelegramBot } from '@bots/telegram-worker';
+import type { Bot, Context } from 'grammy';
 import { ACTION_DEPLOY, ACTION_NOOP, ACTION_RELEASE, parseCallbackData } from '../domain/callback';
 import type { Env } from '../env';
 import { dispatchWorkflow } from '../github/client';
@@ -6,9 +7,7 @@ import { getReleaseStore } from '../storage/client';
 import { environmentKeyboard, postDeployEnvironmentKeyboard } from './view';
 
 export function createBot(env: Env): Bot {
-	const bot = new Bot(env.TELEGRAM_BOT_TOKEN, {
-		botInfo: JSON.parse(env.TELEGRAM_BOT_INFO),
-	});
+	const bot = createTelegramBot(env);
 
 	bot.on('callback_query:data', (ctx) => handleCallback(ctx, env));
 

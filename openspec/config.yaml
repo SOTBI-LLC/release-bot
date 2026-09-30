@@ -1,0 +1,4 @@
+schema: spec-driven
+store: sotbi-plans
+references:
+  - sotbi-plans

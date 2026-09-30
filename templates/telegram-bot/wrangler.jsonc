@@ -1,0 +1,11 @@
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "__BOT_NAME__",
+	"main": "src/index.ts",
+	// Match the runtime bundled with the locked Wrangler/Vitest versions.
+	"compatibility_date": "2026-06-19",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": { "enabled": true },
+	"upload_source_maps": true,
+	"workers_dev": true
+}

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { BuildNotificationSchema } from './domain/notification';
 import type { Env } from './env';
-import { hasSharedSecret } from './security';
+import { hasSharedSecret } from '@bots/telegram-worker';
 import { getReleaseStore } from './storage/client';
 import { createBot } from './telegram/bot';
 import { releaseKeyboard, renderBuildMessage } from './telegram/view';

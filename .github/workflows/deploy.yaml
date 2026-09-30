@@ -1,4 +1,4 @@
-name: Lint, Test & Deploy Worker
+name: Check, Test & Deploy Bots
 on:
   push:
     branches: [main, master]
@@ -6,11 +6,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  lint:
-    uses: SOTBI-LLC/gh-actions/.github/workflows/ts-lint.yaml@main
-    secrets: inherit
-
-  test:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -18,16 +14,32 @@ jobs:
         with: { node-version: '24' }
       - run: corepack enable
       - run: yarn install --frozen-lockfile
-      - run: yarn vitest run
+      - run: yarn typecheck
+      - run: yarn test:run
+      - run: node scripts/check-deployments.mjs
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: [lint, test]
+    needs: [check]
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add a bot here when it is ready for automatic deployment.
+        bot: [releasebot]
+    environment: ${{ matrix.bot }}
+    concurrency:
+      group: deploy-${{ matrix.bot }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: '24' }
+      - run: corepack enable
+      - run: yarn install --frozen-lockfile
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/${{ matrix.bot }}
           command: deploy
